@@ -1,0 +1,47 @@
+div.login{
+	margin: auto;
+	padding: 10px;
+	width: 300px;
+	background: #f9f9f9;
+	border-radius: 5px;
+	font-family: "jaf-facitweb", "Helvetica Neue",Arial,sans-serif;
+}
+
+#title{
+	text-align: center;
+	font-family: "jaf-facitweb", "Helvetica Neue",Arial,sans-serif;
+
+}
+
+p{
+	padding: 2px;
+	margin: 10px;
+}
+
+button{
+	background: #ededed;
+	border-radius: .3em;
+	text-decoration: none;
+	border: 0;
+}
+
+.check{
+	width: 50px;
+	margin: auto;
+}
+
+input[type = text]{
+	width: 100%;
+	border: 1px solid #e6e6e6;
+	border-radius: 5px;
+	background: #e6e6e6;
+
+}
+
+input[type = password]{
+	width: 100%;
+	border: 1px solid #e6e6e6;
+	border-radius: 5px;
+	background: #e6e6e6;
+
+}
