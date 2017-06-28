@@ -2,20 +2,21 @@
 <html lang = "en">
 <head>
   <title>Login</title>
-  <link href="login.css" rel="stylesheet">
+  <link href="styles/login.css" rel="stylesheet">
   <meta charset = "UTF-8" />
 </head>
 <body>
 	<div class = "login">
 		<H1 id = "title" >Log in to Trello</H1>
+		<form>
 			<p>Username:<br>
-			<input type="text" name="username"></p>
+			<input type="text" name="username" placeholder="e.g username1" required></p>
 			<p>Password:<br>
-			<input type="password" name="password"></p>
+			<input type="password" name="password" required></p>
 			<p><input type="checkbox" name=""> Remember Me</p>
-			<div class="check">
-				<button> Log In </button>
-			</div>
+			<input class="button" id="register_btn" type="submit" value="Log in">
+		</form>
+			
 	</div>
 </body>
 </html>

@@ -1,33 +1,112 @@
 <!DOCTYPE HTML>
 <html lang = "en">
 <head>
-  <title>Board</title>
-  <link href="board.css" rel="stylesheet">
+  <title>My Board</title>
+  <script
+  src="https://code.jquery.com/jquery-3.2.1.js"
+  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+  crossorigin="anonymous"></script>
+  <link href="styles/board.css" rel="stylesheet">
   <meta charset = "UTF-8" />
 </head>
 <body>
 	<ul id = "navbar">
-		<li id = "navboards" >Boards</li>
-		<li id="navsettings">Settings</li>
+		<li id = "navboards" >Boards
+			<div id = "boards-menu">
+				<ul id = "boards-content">
+					<li>recent boards</li>
+					<li>personal boards</li>
+					
+				</ul>
+			</div>
+		</li>
+		<li id="navmenu">Menu
+			<div id="menu">
+				<ul id = "menu-content">
+					<li>add members</li>
+					<li>activity</li>
+				</ul>
+			</div>
+		</li>
 	</ul>
 
 	<h1 id = "title"> My Board </h1>
-	<ul class="lists">
-		<li class="list">List1
-			<ul class="cards">
-				<li class="card">card1</li>
-				<li class="card">card2</li>
-				<li class="card">card3</li>
-				<li class="card">card4</li>
-			</ul>
-			<p class = "add">add card...</p>
-		</li>
-		<li class="list">List2</li>
-		<li class="list">List3
-			<ul class="cards">
-				<li class="card">card1</li>
-			</ul>
+
+	<ul id="lists">
+		<li class="list" id = "add_list">
+			<form id="new_list">
+				<input class="box" type="text" name="list_title" placeholder="Add a list..." required>
+				<input class="box" type="submit" name="submit_list" value ="Make list">
+			</form>
 		</li>
 	</ul>
+
+
+	<div id="modal">
+	<div class="big-card">
+		<ul class = "card-contents">
+		<form id = "new_form">
+			<li class="entry">
+				<div >
+					<input id = "card_title" class = "box" type="text" name="title" placeholder="Add Title...">
+				</div>
+			</li>
+			<li class="entry">
+				<ul class="memberlabels">
+					<li>Members
+						<ul>
+							<li class="member">M1</li>
+							<li class="member">M2</li>
+							<li class="member">M3</li>
+						</ul>
+					</li>
+					<li>Labels
+						<ul>
+							<li class="member" id="blue"></li>
+							<li class="member" id="red"></li>
+							<li class="member" id="pink"></li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+			<li class="entry">Edit the Description...
+				<div >
+					<input id = "description" class = "box" type="text" name="Description" placeholder="Edit Description...">
+				</div>
+			</li>
+			<li class="entry">Add Comment
+				<div >
+					<input class = "box" type="text" name="Comment" placeholder="Add Comment...">
+				</div>
+			</li>
+			<li>
+				<input id = 'save' class = "box" type="submit" name="submit_card" placeholder="Save Card">
+			</li>			
+		</form>
+		</ul>
+
+		<div class = "xadd">
+			<button id="x">X</button>
+			<ul class = "big-card-add">
+			<li><h3>Add</h3>
+				<ul>
+					<li class="box">Members</li>
+					<li class="box">Labels</li>
+				</ul>
+			</li>
+			<li><h3>Actions</h3>
+				<ul>
+					<li class="box">Move</li>
+					<li class="box">Copy</li>
+					<li class="box">Archive</li>
+				</ul>
+			</li>
+		</ul>
+		</div>
+		
+		
+	</div>
+	</div>
+	<script src="scripts/board.js"></script>
 </body>
 </html>

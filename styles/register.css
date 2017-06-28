@@ -1,3 +1,7 @@
+body{
+	background: #0079BF;
+}
+
 div.register{
 	margin: auto;
 	padding: 10px;
@@ -17,18 +21,28 @@ p{
 	margin: 10px;
 }
 
-button{
-	background: #ededed;
+.button{
+	background: #58A842;
 	border-radius: .3em;
 	text-decoration: none;
 	border: 0;
-}
-
-.check{
-	width: 50px;
+	color: white;
 	margin: auto;
+	display: block;
+	padding: 15px 30px 15px 30px;
 }
 
+.button:hover{
+	background: green;
+}
+
+.button:focus{
+	outline: 0;
+}
+
+#card_title{
+	font-size: 30;
+}
 
 input[type = text]{
 	width: 100%;

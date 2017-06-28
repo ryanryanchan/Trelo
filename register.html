@@ -2,24 +2,26 @@
 <html lang = "en">
 <head>
   <title>Register</title>
-  <link href="register.css" rel="stylesheet">
+  <link href="styles/register.css" rel="stylesheet">
   <meta charset = "UTF-8" />
 </head>
 <body>
 	<div class="register">
 		<H1 id="title">Register with Trello</H1>
+		<form id = "registration_form">
 			<p>Username:<br>
-			<input type="text" name="username"></p>
+			<input type="text" name="username" placeholder="e.g username1" required></p>
 			<p>Email:<br>
-			<input type="email" name="email"></p>
+			<input type="email" name="email" placeholder="e.g example@gmail.com" required></p>
 			<p>Password:<br>
-			<input type="password" name="password"></p>
+			<input type="password" id="password" name="password" required></p>
 			<p>Confirm Password:<br>
-			<input type="password" name="password"></p>
+			<input type="password" id="password2" name="password" required=""></p>
 			<p><input type="checkbox" name=""> Remember Me</p>
-			<div class="check">
-				<button> Register </button>
-			</div>
+			<input class="button" id="register_btn" type="submit" name="register" value="Register">			
+		</form>
+				
 	</div>
+	<script src="scripts/register.js"></script>
 </body>
 </html>

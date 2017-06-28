@@ -1,5 +1,6 @@
 body{
 	margin: 0;
+	margin-top: 55px;
 	padding: 0;
 	background: #0079BF;
 	font-family: "jaf-facitweb", "Helvetica Neue",Arial,sans-serif;
@@ -13,27 +14,70 @@ body{
 	padding: 0;
 	overflow: hidden;
 	background-color: #333;
+	position: fixed;
+	width: 100%;
+	top:0;
 }
 
 #navbar li{
 	display: block;
 	color: white;
 	text-align: center;
-	padding: 14px 16px;
+	padding: 14px;
 	text-decoration: none;
 }
 
-li:hover{
+#navbar li:hover{
 	background-color: #111;
 }
+
+
 
 #navboards{
 	float: left;
 }
 
-#navsettings{
+#navmenu{
 	float: right;
 }
+
+#navmenu:hover #menu{
+	display:block;
+}
+
+#navboards:hover #boards-menu{
+	display: block;
+}
+
+#menu{
+	background: white;
+    position: fixed;
+    top: 45px;
+    bottom: 0;
+    right: 0;
+    width: 300px;
+    display: none;
+}
+
+#menu-content li{
+	color: black;
+}
+
+#boards-menu{
+	background: white;
+    position: fixed;
+    top: 45px;
+    bottom: 0;
+    left: 0;
+    width: 300px;
+    display: none;
+}
+
+#boards-content li{
+	color: black;
+}
+
+
 
 
 .board{
