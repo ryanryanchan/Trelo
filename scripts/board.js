@@ -35,7 +35,7 @@ $(function(){
 	my_lists = $('#lists');
 // populate from server
 	$.ajax({
-    	url: "http://thiman.me:1337/ryanchan/list",
+    	url: "http://localhost:3000/list",
  	    data: {},
  	    type: "GET",
  	    dataType : "json",
@@ -47,6 +47,7 @@ $(function(){
 
 			var list = list_lists[i];
 			var listIndex = i;
+			console.log(i);
 			var listLi = $('<li/>').addClass('list').attr('id',list._id).html(list.title);
 			listLi.append(`<button class = "del">delete</button>`)
 			var cardsUl = $('<ul/>').addClass('cards');
@@ -145,7 +146,7 @@ $(function(){
 
 		var serverResponse;
 		$.ajax({
-			url: "http://thiman.me:1337/ryanchan/list/"+ listID +"/card",
+			url: "http://localhost:3000/list/"+ listID ,
 			data: {
 				"description": card_title
 			},
@@ -185,10 +186,8 @@ $(function(){
     	var listIndex = map[cardId].listIndex;
     	var cardIndex = map[cardId].cardIndex;
 
-    	console.log(("http://thiman.me:1337/ryanchan/list/"+ list_lists[listIndex]._id +"/card/" + list_lists[listIndex].cards[cardIndex]._id));
-    	
     	$.ajax({
-    		url: ("http://thiman.me:1337/ryanchan/list/"+ list_lists[listIndex]._id +"/card/" + list_lists[listIndex].cards[cardIndex]._id),
+    		url: ("http://localhost:3000/list/"+ list_lists[listIndex]._id +"/card/" + list_lists[listIndex].cards[cardIndex]._id),
 			data: {},
 			type: "DELETE",
 			dataType : "html",
@@ -210,7 +209,7 @@ $(function(){
 		var list_title = $("#new_list input[name=list_title]").val();
 		var listID;
 		$.ajax({
-			url: "http://thiman.me:1337/ryanchan/list",
+			url: "http://localhost:3000/list",
 			data: {"title": list_title},
 			type: "POST", 		
 			dataType : "json" 		
@@ -237,7 +236,7 @@ $(function(){
 		console.log(list_id);
 		console.log('delete-list');
 		$.ajax({
-			url: "http://thiman.me:1337/ryanchan/list/" + list_id,
+			url: "http://localhost:3000/list/" + list_id,
 			data: {},
 			type: "DELETE", 		
 			dataType : "json" 	
