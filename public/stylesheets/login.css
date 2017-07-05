@@ -1,0 +1,63 @@
+body{
+	background: #0079BF;
+}
+
+div.login{
+	margin: auto;
+	padding: 10px;
+	width: 300px;
+	background: #f9f9f9;
+	border-radius: 5px;
+	font-family: "jaf-facitweb", "Helvetica Neue",Arial,sans-serif;
+}
+
+#title{
+	text-align: center;
+	font-family: "jaf-facitweb", "Helvetica Neue",Arial,sans-serif;
+
+}
+
+p{
+	padding: 2px;
+	margin: 10px;
+}
+
+.button{
+	background: #58A842;
+	border-radius: .3em;
+	text-decoration: none;
+	border: 0;
+	color: white;
+	margin: auto;
+	display: block;
+	padding: 15px 30px 15px 30px;
+}
+
+.button:hover{
+	background: green;
+}
+
+.button:focus{
+	outline: 0;
+}
+
+.check{
+	width: 50px;
+	margin: auto;
+}
+
+input[type = text]{
+	width: 100%;
+	border: 1px solid #e6e6e6;
+	border-radius: 5px;
+	background: #e6e6e6;
+
+}
+
+input[type = password]{
+	width: 100%;
+	border: 1px solid #e6e6e6;
+	border-radius: 5px;
+	background: #e6e6e6;
+
+}

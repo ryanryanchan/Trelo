@@ -1,7 +1,5 @@
-<!DOCTYPE HTML>
-<html lang = "en">
+<%- include('header', {href: 'stylesheets/board.css '}); %>
 
-<body>
 	<ul id = "navbar">
 		<li id = "navboards" >Boards
 			<div id = "boards-menu">
@@ -17,11 +15,12 @@
 				<ul id = "menu-content">
 					<li>add members</li>
 					<li>activity</li>
+					<li><a href = "/login"?>log out</a></li>
 				</ul>
 			</div>
 		</li>
 	</ul>
-
+	
 	<h1 id = "title"> My Board </h1>
 
 	<ul id="lists">
@@ -99,6 +98,6 @@
 		
 	</div>
 	</div>
-	<script src="scripts/board.js"></script>
-</body>
-</html>
+	
+
+<%- include('footer',{script: "javascripts/board.js"}); %>

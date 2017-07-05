@@ -1,0 +1,17 @@
+<%- include('header', {href: 'stylesheets/login.css '}); %>
+
+
+<div class = "login">
+		<H1 id = "title" >Log in to Trello</H1>
+		<form id = "login_form">
+			<p>Username:<br>
+			<input type="text" name="username" placeholder="e.g username1" required></p>
+			<p>Password:<br>
+			<input type="password" name="password" required></p>
+			<p><input type="checkbox" name=""> Remember Me</p>
+			<input class="button" id="register_btn" type="submit" value="Log in">
+		</form>
+			
+	</div>
+
+<%- include('footer',{script: "javascripts/login.js"}); %>

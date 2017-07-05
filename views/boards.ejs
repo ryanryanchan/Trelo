@@ -1,11 +1,5 @@
-<!DOCTYPE HTML>
-<html lang = "en">
-<head>
-  <title><%=title%> | Boards</title>
-  <link href="stylesheets/boards.css" rel="stylesheet">
-  <meta charset = "UTF-8" />
-</head>
-<body>
+<%- include('header', {href: 'stylesheets/boards.css '}); %>
+
 	<ul id = "navbar">
 		<li id = "navboards" >Boards
 			<div id = "boards-menu">
@@ -49,8 +43,4 @@
 		</div>
 	</div>
 
-
-
-
-</body>
-</html>
+<%- include('footer',{script: "javascripts/boards.js"}); %>
