@@ -5,10 +5,6 @@ var List = require('../models/list');
 var Card = require('../models/card');
 
 
-
-var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/prello');
-
 //CORS middleware
 var allowCrossDomain = function(req, res, next) {
     res.header('Access-Control-Allow-Origin', 'null');
@@ -58,13 +54,42 @@ router.post('/', function (req,res) {
 
 router.post('/:id', function(req, res){
 	console.log('posting card');
-	var newcard = new Card({"description": req.body.description});
+	var newcard = new Card({
+		"description": req.body.description,
+		"title": req.body.title
+	});
+	if(req.body.comment != ""){
+		newcard.comments.push(req.body.comment + " // " + req.session.user.username + " // " + Date() );
+	}
+
 	List.findOne({_id: req.params.id}, function(err, list){
 		if (err){console.log(err);} 
 		else{
 			list.cards.push(newcard);
 			list.save();
 			res.json(list);
+		}
+	});
+});
+
+router.post('/:listid/card/:cardid',function(req,res){
+	List.findOne({'_id': req.params.listid}, function(err, list){
+		if (err){console.log(err);} 
+		else{
+			for(i = 0; i < list.cards.length; i++){
+				if(list.cards[i]._id == req.params.cardid){
+					console.log('PLEASE');
+					if(req.body.comment != ""){
+						list.cards[i].comments.push(req.body.comment + " // " + req.session.user.username + " // " + Date() );
+					}
+					list.markModified("cards");
+				}
+			}
+			list.save(function(err2, list2){
+				if (err2){console.log(err2);} 
+				res.json(list2);
+			});
+			
 		}
 	});
 });
@@ -90,8 +115,36 @@ router.patch('/:listid/card/:cardid',function(req,res){
 		else{
 			for(i = 0; i < list.cards.length; i++){
 				if(list.cards[i]._id == req.params.cardid){
-					console.log('PLEASE');
+					console.log(req.body.description);
 					list.cards[i].description = req.body.description;
+					list.cards[i].title = req.body.title
+					if(req.body.comment != ""){
+						console.log(req.body.comment);
+						var c = req.body.comment + " // " + req.session.user.username + " // " + Date() 
+						list.cards[i].comments.push( c );
+					}
+					list.markModified("cards");
+				}
+			}
+			list.save(function(err2, list2){
+				if (err2){console.log(err2);} 
+				res.json({"comment": c});
+			});
+			
+		}
+	});
+});
+
+
+
+router.patch('/:listid/card/:cardid/label',function(req,res){
+	List.findOne({'_id': req.params.listid}, function(err, list){
+		if (err){console.log(err);} 
+		else{
+			for(i = 0; i < list.cards.length; i++){
+				if(list.cards[i]._id == req.params.cardid){
+					console.log('PLEASE');
+					list.cards[i].labels.push(req.body.label);
 					list.markModified("cards");
 				}
 			}
@@ -119,7 +172,9 @@ router.delete('/:listid/card/:cardid', function(req,res){
 		if (err){console.log(err);} 
 		else{
 			for (var i = 0; i < list.cards.length; i++) {
-				list.cards.splice(i,1);
+				if(list.cards[i]._id == req.params.cardid){
+					list.cards.splice(i,1);
+				}
 			}
 			list.save();
 			res.json(list);

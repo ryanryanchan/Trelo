@@ -112,7 +112,6 @@ ul{
 	background: white;
 	border-radius: 3px;
 	border: 0;
-	white-space: nowrap;
 }
 
 .card:hover{
@@ -150,6 +149,15 @@ ul{
 	color: white;
 }
 
+.del-btn{
+	padding: 0;
+	margin: 0;
+	float: right;
+	display: block;
+	border: 0;
+	background: #c0c0c0;
+}
+
 #modal{
 	display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
@@ -171,7 +179,6 @@ ul{
 	margin: auto;
 	margin-top: 50px;
 }
-
 .card-contents{
 	list-style-type: none;
 	display: inline-block;
@@ -179,6 +186,7 @@ ul{
 	padding-top: 10px;
 	width: 73%
 }
+
 
 .entry{
 	margin: 0;
@@ -243,12 +251,36 @@ button:focus{
 	outline: 0;
 }
 
-#green{background: green;}
-#yellow{background: yellow;}
-#orange{background: orange;}
+
 #red{background: red;}
-#pink{background: pink;}
+#orange{background: orange;}
+#yellow{background: yellow;}
+#green{background: green;}
 #blue{background: blue;}
+#pink{background: pink;}
+
+#myDropdown {
+    position: relative;
+}
+
+.dropdown-content {
+	color: white;
+    display: none;
+    list-style-type: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 25px;
+    z-index: 1;
+}
+
+.dropdown-content li:hover{
+	background: grey;
+}
+
+#myDropdown:hover  .dropdown-content {
+    display: block;
+}
+
 
 .box{
 	background: white;
@@ -259,6 +291,7 @@ button:focus{
 	width: 90%;
 	border:0;
 	display: block;
+	white-space: normal;
 }
 
 #save{
@@ -269,4 +302,6 @@ button:focus{
 	margin-bottom: 20px;
 	width: 70px;
 }
+
+
 

@@ -1,5 +1,12 @@
-<%- include('header', {href: 'stylesheets/board.css '}); %>
+<%- include('header', {href: '../stylesheets/board.css '}); %>
+	
+	<script src="/socket.io/socket.io.js"></script>
+	<script>
+	  var socket = io();
+	</script>
 
+
+	
 	<ul id = "navbar">
 		<li id = "navboards" >Boards
 			<div id = "boards-menu">
@@ -15,7 +22,7 @@
 				<ul id = "menu-content">
 					<li>add members</li>
 					<li>activity</li>
-					<li><a href = "/login"?>log out</a></li>
+					<li><a href = "/logout"?>log out</a></li>
 				</ul>
 			</div>
 		</li>
@@ -39,7 +46,7 @@
 		<form id = "new_form">
 			<li class="entry">
 				<div >
-					<input id = "card_title" class = "box" type="text" name="title" placeholder="Add Title...">
+					<input id = "card_title" class = "box" type="text" name="title" placeholder="Add Title..." required>
 				</div>
 			</li>
 			<li class="entry">
@@ -51,11 +58,9 @@
 							<li class="member">M3</li>
 						</ul>
 					</li>
-					<li>Labels
+					<li id='labels'>Labels
 						<ul>
-							<li class="member" id="blue"></li>
-							<li class="member" id="red"></li>
-							<li class="member" id="pink"></li>
+							
 						</ul>
 					</li>
 				</ul>
@@ -70,8 +75,14 @@
 					<input class = "box" type="text" name="Comment" placeholder="Add Comment...">
 				</div>
 			</li>
+			<li class = "entry" id = "comments_box"> Comments
+				<div >
+					<ul id = "comments">
+					</ul>
+				</div>
+			</li>
 			<li>
-				<input id = 'save' class = "box" type="submit" name="submit_card" placeholder="Save Card">
+				<input id = 'save' class = "box" type="submit" name="submit_card" value="Save">
 			</li>			
 		</form>
 		</ul>
@@ -82,7 +93,18 @@
 			<li><h3>Add</h3>
 				<ul>
 					<li class="box">Members</li>
-					<li class="box">Labels</li>
+					<li class="box" id="myDropdown">Labels
+
+						<ul  class="dropdown-content">
+							<li id="red">Red</li>
+							<li id="orange">Orange</li>
+						    <li id="yellow">Yellow</li>
+						    <li id="green">Green</li>
+						    <li id="blue">Blue</li>
+						    <li id="pink">Pink</li>
+						</ul>
+
+					</li>
 				</ul>
 			</li>
 			<li><h3>Actions</h3>
@@ -99,5 +121,5 @@
 	</div>
 	</div>
 	
-
-<%- include('footer',{script: "javascripts/board.js"}); %>
+<script> var boardid = '<%- bid %>'; </script>
+<%- include('footer',{script: "../javascripts/board.js"}); %>

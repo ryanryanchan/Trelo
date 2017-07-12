@@ -3,9 +3,6 @@ var router = express.Router();
 
 var User = require('../models/user');
 
-var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/prello');
-
 //CORS middleware
 var allowCrossDomain = function(req, res, next) {
     res.header('Access-Control-Allow-Origin', 'null');

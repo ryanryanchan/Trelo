@@ -15,6 +15,7 @@
 				<ul id = "menu-content">
 					<li>add members</li>
 					<li>activity</li>
+					<li><a href = "/logout"?>log out</a></li>
 				</ul>
 			</div>
 		</li>
@@ -24,21 +25,12 @@
 	<div class="board">
 		<h1 class = "title">My boards</h1>
 			<ul class="lol">
-				<li>board1</li>
-				<li>board2</li>
-				<li>create new board</li>
-			</ul>
-		</div>
-	</div>
-	<div class="board">
-		<h1 class = "title">My other boards</h1>
-			<ul class="lol">
-				<li>board1</li>
-				<li>board2</li>
-				<li>board3</li>
-				<li>board4</li>
-				<li>board5</li>
-				<li>create new board</li>
+				<li id="add_board">
+					<form id="new_board">
+						<input class="box" type="text" name="board_title" placeholder="Add a board..." required>
+						<input class="box" type="submit" name="submit_board" value ="Make board">
+					</form>
+				</li>
 			</ul>
 		</div>
 	</div>

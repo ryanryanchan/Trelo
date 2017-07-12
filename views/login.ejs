@@ -1,9 +1,8 @@
 <%- include('header', {href: 'stylesheets/login.css '}); %>
 
-
 <div class = "login">
 		<H1 id = "title" >Log in to Trello</H1>
-		<form id = "login_form">
+		<form id = "login_form" method="POST" action="/login">
 			<p>Username:<br>
 			<input type="text" name="username" placeholder="e.g username1" required></p>
 			<p>Password:<br>

@@ -6,8 +6,6 @@ body{
 	font-family: "jaf-facitweb", "Helvetica Neue",Arial,sans-serif;
 }
 
-
-
 #navbar{
 	list-style-type: none;
 	margin: 0;
@@ -41,13 +39,6 @@ body{
 	float: right;
 }
 
-#navmenu:hover #menu{
-	display:block;
-}
-
-#navboards:hover #boards-menu{
-	display: block;
-}
 
 #menu{
 	background: white;
@@ -77,14 +68,6 @@ body{
 	color: black;
 }
 
-
-
-
-.board{
-	margin:0;
-	padding: 0;
-}
-
 .title{
 	margin: 20px;
 	margin-bottom: 10px;
@@ -106,4 +89,33 @@ body{
 	padding:10px;
 	border-radius: 5px;
 	margin: 10px;
+	vertical-align: top;
 }
+
+.lol li:hover{
+	background: #c0c0c0;
+}
+#add_board:hover{
+	background: #dddddd;
+}
+.del{
+	padding: 0;
+	margin: 0;
+	float: right;
+	display: block;
+	border: 0;
+	background: #c0c0c0;
+}
+
+
+.box{
+	background: white;
+	margin-top:5px;
+	padding:10px;
+	border-radius: 3px;
+	list-style-type: none;
+	width: 90%;
+	border:0;
+	display: block;
+}
+

@@ -2,7 +2,10 @@ var mongoose = require('mongoose');
 
 var schema = mongoose.Schema( 
 		{
-			description: String
+			title: String,
+			description: String,
+			comments: Array,
+			labels: Array
 		}
 	);
 

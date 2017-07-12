@@ -1,41 +1,14 @@
-
-//dummy data
-// var list_lists = [
-// 	{
-// 		id:1,
-//     	title: 'List 1',
-//     	cards: [
-//     		{ id: 'card1', description: 'hello 1' },
-//       		{ id: 'card2', description: 'hello 2' },
-//       		{ id: 'card3', description: 'hello 3' },
-//       		{ id: 'card4', description: 'hello 4' },
-//     	]
-//   	},
-//   	{
-//   		id:2,
-//     	title: 'List 2',
-//     	cards: []
-//   	},
-//   	{
-//   		id:3,
-//     	title: 'List 3',
-//     	cards: [
-//       		{ id: '3card1', description: 'hey1' },
-//     	]
-//   	}
-// ];
-
-
 var my_lists;
 var list_lists;
 var map = {};
+
 
 $(function(){
 	var currentCard;
 	my_lists = $('#lists');
 // populate from server
 	$.ajax({
-    	url: "http://localhost:3000/list",
+    	url: "http://localhost:3000/my_boards/" + boardid,
  	    data: {},
  	    type: "GET",
  	    dataType : "json",
@@ -59,7 +32,7 @@ $(function(){
 	     		var card = list.cards[j];
 	   		   	map[cardId] = { listIndex, cardIndex }; // { listIndex: listIndex, cardIndex: cardIndex }
 
-	      		var cardLi = $('<li/>').attr('id', card._id).attr('class', 'card').html(card.description);
+	      		var cardLi = $('<li/>').attr('id', card._id).attr('class', 'card').html(card.title);
 	      		cardLi.append(`<button data-cardid="${cardId}" class="del-btn">X</button>`);
 	     		cardsUl.append(cardLi);
     		}
@@ -69,37 +42,6 @@ $(function(){
 
 
 	});
-
-
-//local data load
-	// my_lists = $('#lists');
-
-	// for (var i = 0; i < list_lists.length; i++) {
-	// 	var list = list_lists[i];
-	// 	var listIndex = i;
- //  		var listLi = $('<li/>').addClass('list').attr('id',listIndex).html(list.title);
- //  		listLi.append(`<button class = "del">delete</button>`)
- //    	var cardsUl = $('<ul/>').addClass('cards');
-
- //    	for(var j = 0; j < list.cards.length; j++) {
- // 	    	var cardIndex = j;
- //      		var cardId = list.cards[j].id;
- //     		var card = list.cards[j];
- //   		   	map[cardId] = { listIndex, cardIndex }; // { listIndex: listIndex, cardIndex: cardIndex }
-   	   
- //      		var cardLi = $('<li/>').attr('id', cardId).attr('class', 'card').html(card.description);
- //      		cardLi.append(`<button data-cardid="${cardId}" class="del-btn">X</button>`);
- //     		cardsUl.append(cardLi);
- //    	}
- //    	listLi.append(cardsUl).append(`<button class = "add">add card...</button>`);
- //   		my_lists.append(listLi);
-	// }
-	// my_lists.append(`<li class="list" id = "add_list">
-	// 	<form id="new_list">
-	// 		<input class="box" type="text" name="list_title" placeholder="Add a list...">
-	// 		<input class="box" type="submit" name="submit_list" value ="Make list">
-	// 	</form>
-	// </li>`);
 
 	//helper function
 	function findListIndex(listID) {
@@ -128,9 +70,38 @@ $(function(){
 		}
 	});
 
+	var editing = false;
+
 	//modal stuff
 	$("#lists").on("click", ".list .add", function(event){
+		$('#comments').empty();
+		$("#description").attr("value", "");
+		$("#card_title").attr("value", "");
 		$("#modal").css("display","block");
+		$("#comments_box").css("display","none");
+		editing = false;
+		currentCard = event.target;
+	});
+
+
+	//click a card
+	$('#lists').on('click', '.card', function(event){
+		var thiscard = list_lists[map[this.id].listIndex].cards[map[this.id].cardIndex];
+		console.log(thiscard);
+		$("#comments_box").css("display","block");
+		$("#description").attr("value", thiscard.description);
+		$("#card_title").attr("value", thiscard.title);
+		$("#modal").css("display","block");
+		$('#comments').empty();
+		for(var i = 0; i < thiscard.comments.length; i++){
+			
+			var new_comment = $("<li/>").addClass('box');
+			new_comment.html(thiscard.comments[i]);
+			console.log(thiscard)
+			$('#comments').append(new_comment);
+
+		}
+		editing = true;
 		currentCard = event.target;
 	});
 
@@ -138,39 +109,76 @@ $(function(){
 	$('#new_form').on("submit", function(event){
 		event.preventDefault();
 
-		var card_title = $("#new_form input[name=Description]").val();
+		var card_title = $("#new_form input[name=title]").val();
+		var card_description = $("#new_form input[name=Description]").val();
+		var card_comment = $("#new_form input[name=Comment]").val();
+
+		
 		var currentList = $(currentCard).parent();
 		var listID = currentList.attr("id");
 		var cardID;
 		var cards;
 
+		console.log(card_title + card_description + card_comment );
+
 		var serverResponse;
-		$.ajax({
-			url: "http://localhost:3000/list/"+ listID ,
-			data: {
-				"description": card_title
-			},
-			type: "POST",	 		
-			dataType : "json" 	
-		})
-		.done(function(json){
-			serverResponse = json;
-			cards = serverResponse.cards;
-			cardID = cards[cards.length - 1]._id;
-			listID = findListIndex(listID);
+		if(!editing){
+			$.ajax({
+				url: "http://localhost:3000/my_boards/"+ boardid + "/list/" + listID ,
+				data: {
+					"description": card_description,
+					"title": card_title,
+					"comment": card_comment
+				},
+				type: "POST",	 		
+				dataType : "json" 	
+			})
+			.done(function(json){
 
-			list_lists[listID] = serverResponse;
-			map[cardID] = {listIndex: listID, cardIndex:cards.length - 1};
+				serverResponse = json;
 
-			//create new element, fill in data
-			var newLi = $("<li/>").addClass('card').attr('id',cardID).html(card_title);
-			newLi.append(`<button data-cardid="${cardID}" class="del-btn">X</button>`);
-			
-			//get current list and insert
-			var ul_cards = $(currentCard).siblings("ul.cards"); 
-			ul_cards.append(newLi);
-		});
+				listID = findListIndex(listID);
 
+				list_lists = serverResponse.lists;
+				var num = list_lists[listID].cards.length - 1;
+				cardID = list_lists[listID].cards[num]._id;
+				
+				var thiscard = list_lists[listID].cards[num]
+				socket.emit('newcard', {for: 'everyone', thiscard });
+
+				console.log(list_lists[listID].cards[num]);
+				map[cardID] = {listIndex: listID, cardIndex: list_lists[listID].cards.length - 1};
+
+				//create new element, fill in data
+				var newLi = $("<li/>").addClass('card').attr('id',cardID).html(card_title);
+				newLi.append(`<button data-cardid="${cardID}" class="del-btn">X</button>`);
+				
+				//get current list and insert
+				var ul_cards = $(currentCard).siblings("ul.cards"); 
+				ul_cards.append(newLi);
+			});
+		}else{
+			var listIndex = map[currentCard.id].listIndex;
+
+			$.ajax({
+				url: "http://localhost:3000/my_boards/"+ boardid + 
+						"/list/" + list_lists[listIndex]._id +
+						"/card/" + currentCard.id,
+				data: {
+					"description": card_description,
+					"title": card_title,
+					"comment": card_comment
+				},
+				type: "PATCH",	 		
+				dataType : "json" 	
+			})
+			.done(function(json){
+				console.log(json);
+				list_lists = json.lists;
+
+			});
+		}
+		
 		//reset form modal
 		$("#modal").css("display","none");
 		$(this)[0].reset();
@@ -179,6 +187,8 @@ $(function(){
 
 	// delete cards
 	my_lists.on('click', '.del-btn', function(event) {
+		event.stopPropagation();
+
 		var currentButton = $(event.target);
 		console.log(currentButton.parent());
 
@@ -187,7 +197,9 @@ $(function(){
     	var cardIndex = map[cardId].cardIndex;
 
     	$.ajax({
-    		url: ("http://localhost:3000/list/"+ list_lists[listIndex]._id +"/card/" + list_lists[listIndex].cards[cardIndex]._id),
+    		url: ("http://localhost:3000/my_boards/" + boardid + 
+    					"/list/"+ list_lists[listIndex]._id +
+    					"/card/" + list_lists[listIndex].cards[cardIndex]._id),
 			data: {},
 			type: "DELETE",
 			dataType : "html",
@@ -209,12 +221,13 @@ $(function(){
 		var list_title = $("#new_list input[name=list_title]").val();
 		var listID;
 		$.ajax({
-			url: "http://localhost:3000/list",
+			url: "http://localhost:3000/my_boards/" + boardid,
 			data: {"title": list_title},
 			type: "POST", 		
 			dataType : "json" 		
 		}).done(function( json ){
-			list_lists[list_lists.length -1] = json;
+			console.log(json);
+			list_lists = json.lists;
 			
 			listID = list_lists[list_lists.length -1]._id;
 			console.log(listID);
@@ -236,7 +249,7 @@ $(function(){
 		console.log(list_id);
 		console.log('delete-list');
 		$.ajax({
-			url: "http://localhost:3000/list/" + list_id,
+			url: "http://localhost:3000/my_boards/" + boardid + '/list/' + list_id,
 			data: {},
 			type: "DELETE", 		
 			dataType : "json" 	
@@ -244,6 +257,11 @@ $(function(){
 		list_lists.splice(findListIndex(list_id), 1);
 		currentCard.remove();
 
+	});
+
+	$('.dropdown-content li').on('click' , function(event){
+		var newlabel = $("<li/>").addClass("member").attr('id', this.id);
+		$('#labels ul').append(newlabel);
 	});
 
 

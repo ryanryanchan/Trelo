@@ -6,12 +6,19 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('client-sessions');
 
+
 var index = require('./routes/index');
 var users = require('./routes/users');
 var list = require('./routes/list');
+var my_boards = require('./routes/my_boards');
+var boards = require('./routes/boards');
 var login = require('./routes/login');
 var register = require('./routes/register');
 var board = require('./routes/board');
+var logout = require('./routes/logout');
+
+var User = require('./models/user');
+
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/prello');
 
@@ -29,14 +36,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
-app.use('/users', users);
-app.use('/list', list );
-app.use('/login', login );
-app.use('/register', register);
-app.use('/board', board);
-
-//configure sessions
+//session setup
 app.use(session({
   cookieName: 'session',
   secret: 'secret-string',
@@ -64,13 +64,17 @@ app.use(function(req, res, next) {
   }
 });
 
-function requireLogin (req, res, next) {
-  if (!req.user) {
-    res.redirect('/login');
-  } else {
-    next();
-  }
-};
+
+app.use('/', index);
+app.use('/users', users);
+app.use('/list', list );
+app.use('/my_boards', my_boards );
+
+app.use('/login', login );
+app.use('/boards', boards);
+app.use('/register', register);
+app.use('/board', board);
+app.use('/logout', logout);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
