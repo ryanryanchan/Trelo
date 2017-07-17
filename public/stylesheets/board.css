@@ -47,31 +47,43 @@ ul{
 
 
 #menu{
-	background: white;
+	background: #c0c0c0;
     position: fixed;
     top: 45px;
     bottom: 0;
     right: 0;
-    width: 300px;
+    width: 200px;
     display: none;
 }
 
+#menu-content{padding: 0;}
 #menu-content li{
 	color: black;
 }
+#menu-content li:hover{
+	background: grey;
+}
 
 #boards-menu{
-	background: white;
+	background: #c0c0c0;
     position: fixed;
     top: 45px;
     bottom: 0;
     left: 0;
-    width: 300px;
+    width: 200px;
     display: none;
+}
+
+#boards-content{
+	padding: 0;
 }
 
 #boards-content li{
 	color: black;
+	
+}
+#boards-content li:hover{
+	background: grey;
 }
 
 
@@ -143,7 +155,7 @@ ul{
 	float: right;
 	display: block;
 	border: 0;
-	background: #c0c0c0;
+	background: none;
 }
 .del:hover{
 	color: white;
@@ -155,7 +167,7 @@ ul{
 	float: right;
 	display: block;
 	border: 0;
-	background: #c0c0c0;
+	background: none;
 }
 
 #modal{

@@ -11,17 +11,19 @@
 		<li id = "navboards" >Boards
 			<div id = "boards-menu">
 				<ul id = "boards-content">
-					<li>recent boards</li>
-					<li>personal boards</li>
-					
+					<li id = 'my_boards' >My Boards</li>
 				</ul>
 			</div>
 		</li>
 		<li id="navmenu">Menu
 			<div id="menu">
 				<ul id = "menu-content">
-					<li>add members</li>
-					<li>activity</li>
+					<li>
+						<form id="new_member">
+							<input class='box' type='text' name='add_member' placeholder='Username' required>
+							<input class="box" type="submit" name="submit_member" value ="Add Member">
+						</form>
+					</li>
 					<li><a href = "/logout"?>log out</a></li>
 				</ul>
 			</div>
@@ -72,7 +74,7 @@
 			</li>
 			<li class="entry">Add Comment
 				<div >
-					<input class = "box" type="text" name="Comment" placeholder="Add Comment...">
+					<input id = "comment" class = "box" type="text" name="Comment" placeholder="Add Comment...">
 				</div>
 			</li>
 			<li class = "entry" id = "comments_box"> Comments

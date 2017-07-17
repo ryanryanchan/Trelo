@@ -46,6 +46,10 @@ $(function(){
 		}
 	});
 
+	$('#my_boards').click(function(){
+		window.location = '/boards';
+	})
+
 
 	//add a board
 	$("#new_board").on('submit', function(event){

@@ -1,7 +1,10 @@
 var my_lists;
 var list_lists;
 var map = {};
+var labels = [];
 
+
+socket.emit('room', boardid);
 
 $(function(){
 	var currentCard;
@@ -60,25 +63,63 @@ $(function(){
 		}else{
 			$('#boards-menu').css('display','block');
 		}
+	}).on('click', 'div', function(e){
+		e.stopPropagation();
 	});
 
-	$("#navmenu").click(function(){
+	$('#my_boards').click(function(){
+		window.location = '/boards';
+	})
+
+
+	$("#navmenu").on('click', function(event){
 		if($('#menu').css('display') === "block"){
 			$('#menu').css('display','none');
+			$('#new_member')[0].reset();
 		}else{
 			$('#menu').css('display','block');
 		}
+	}).on('click', 'div', function(e){
+		e.stopPropagation();
 	});
+
+	$('#new_member').on('submit', function(){
+		var user = $('#new_member input[name=add_member]').val();
+		$.ajax({
+			url: "http://localhost:3000/users",
+				data: {},
+				type: "GET",	 		
+				dataType : "json" 
+		}).done(function(json){
+			for(var i = 0; i< json.length; i++){
+				if(user == json[i].username){
+					$.ajax({
+						url: "http://localhost:3000/my_boards/" + boardid + '/member',
+						data: {'member':user},
+						type: "POST",
+						dataType : "json" 
+					}).done(function(json){
+					});
+					return;
+				}
+			}
+			alert(user + ' not in the database');
+		});
+	});
+
 
 	var editing = false;
 
 	//modal stuff
 	$("#lists").on("click", ".list .add", function(event){
 		$('#comments').empty();
+		$('#labels ul').empty();
 		$("#description").attr("value", "");
 		$("#card_title").attr("value", "");
 		$("#modal").css("display","block");
 		$("#comments_box").css("display","none");
+		$("#comment").attr("value","");
+		labels = [];
 		editing = false;
 		currentCard = event.target;
 	});
@@ -89,15 +130,22 @@ $(function(){
 		var thiscard = list_lists[map[this.id].listIndex].cards[map[this.id].cardIndex];
 		console.log(thiscard);
 		$("#comments_box").css("display","block");
+		$("#comment").attr("value","");
 		$("#description").attr("value", thiscard.description);
 		$("#card_title").attr("value", thiscard.title);
 		$("#modal").css("display","block");
 		$('#comments').empty();
+		$('#labels ul').empty();
+		labels = thiscard.labels;
+		for(var i = 0; i < thiscard.labels.length; i++){
+			var newlabel = $("<li/>").addClass('member').attr('id', thiscard.labels[i]);
+			$('#labels ul').append(newlabel);
+		}
+
 		for(var i = 0; i < thiscard.comments.length; i++){
 			
 			var new_comment = $("<li/>").addClass('box');
 			new_comment.html(thiscard.comments[i]);
-			console.log(thiscard)
 			$('#comments').append(new_comment);
 
 		}
@@ -113,6 +161,13 @@ $(function(){
 		var card_description = $("#new_form input[name=Description]").val();
 		var card_comment = $("#new_form input[name=Comment]").val();
 
+		var new_labels = [];
+		var card_labels = $('#labels ul li');
+
+		card_labels.each( function(){
+			new_labels.push(this.id);
+		});
+
 		
 		var currentList = $(currentCard).parent();
 		var listID = currentList.attr("id");
@@ -122,13 +177,15 @@ $(function(){
 		console.log(card_title + card_description + card_comment );
 
 		var serverResponse;
+		//if it is a new card
 		if(!editing){
 			$.ajax({
 				url: "http://localhost:3000/my_boards/"+ boardid + "/list/" + listID ,
 				data: {
 					"description": card_description,
 					"title": card_title,
-					"comment": card_comment
+					"comment": card_comment,
+					"labels": new_labels
 				},
 				type: "POST",	 		
 				dataType : "json" 	
@@ -142,8 +199,8 @@ $(function(){
 				list_lists = serverResponse.lists;
 				var num = list_lists[listID].cards.length - 1;
 				cardID = list_lists[listID].cards[num]._id;
-				
-				var thiscard = list_lists[listID].cards[num]
+
+				var thiscard = list_lists[listID].cards[num];
 				socket.emit('newcard', {for: 'everyone', thiscard });
 
 				console.log(list_lists[listID].cards[num]);
@@ -157,7 +214,9 @@ $(function(){
 				var ul_cards = $(currentCard).siblings("ul.cards"); 
 				ul_cards.append(newLi);
 			});
-		}else{
+		}
+		// if the card is already made and we want to edit it
+		else{
 			var listIndex = map[currentCard.id].listIndex;
 
 			$.ajax({
@@ -167,7 +226,8 @@ $(function(){
 				data: {
 					"description": card_description,
 					"title": card_title,
-					"comment": card_comment
+					"comment": card_comment,
+					"labels": new_labels 
 				},
 				type: "PATCH",	 		
 				dataType : "json" 	
@@ -206,8 +266,9 @@ $(function(){
     	}).done(function(json){
     		delete map[cardId];
     		console.log('deleted')
-
-    		list_lists[listIndex].cards.splice(cardIndex, 1);
+			list_lists[listIndex].cards.splice(cardIndex, 1);
+    		socket.emit('deletecard', {for: 'everyone', list_lists });
+    		
     	});
     	$(this).parent().remove();
 
@@ -229,6 +290,9 @@ $(function(){
 			console.log(json);
 			list_lists = json.lists;
 			
+			socket.emit('newlist', {for: 'everyone', list_lists });
+
+
 			listID = list_lists[list_lists.length -1]._id;
 			console.log(listID);
 			var new_list = $("<li/>").addClass("list").attr('id', listID);
@@ -255,17 +319,33 @@ $(function(){
 			dataType : "json" 	
 		});
 		list_lists.splice(findListIndex(list_id), 1);
+		socket.emit('deletelist', {for: 'everyone', list_lists });
+
 		currentCard.remove();
 
 	});
 
+	
+	// add labels
 	$('.dropdown-content li').on('click' , function(event){
 		var newlabel = $("<li/>").addClass("member").attr('id', this.id);
-		$('#labels ul').append(newlabel);
+		if( $.inArray(newlabel.attr('id'), labels) == -1){
+			$('#labels ul').append(newlabel);
+		}
 	});
 
+	// delete labels
+	$('#labels ul').on('click', 'li', function(event){
+		console.log($(this).parent());
+		for(var i = 0; i < labels.length; i++){
+			if(labels[i] == $(this).attr('id')){
+				$(this).remove();
+			}
+		}
+	});
 
 	console.log(map);
+	
 });
 
 
@@ -273,14 +353,17 @@ $(function(){
 //modal exiting
 var modal = document.getElementById("modal");
 var close = document.getElementById("x");
+
 close.onclick = function(){
 	modal.style.display = "none";
+	$('#new_form')[0].reset();
 }
 
 window.onclick = function(event){
 
 	if(event.target == modal){
 		modal.style.display = "none";
+		$('#new_form')[0].reset();
 	}
 
 }

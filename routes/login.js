@@ -16,9 +16,8 @@ router.post('/', function(req, res) {
       	res.render('login', {  title: "login", error: 'Invalid username or password.' });
     } else {
       if (req.body.password === user.password) {
-      	console.log( 'password works' + user + req.session.user + '//////');
       	req.session.user = user;
-      	//res.json(user);
+        console.log('password works');
         res.redirect('/boards');
       } else {
       	console.log('password doesnt work');

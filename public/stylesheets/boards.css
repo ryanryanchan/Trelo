@@ -46,12 +46,16 @@ body{
     top: 45px;
     bottom: 0;
     right: 0;
-    width: 300px;
+    width: 200px;
     display: none;
 }
 
+#menu-content{padding: 0;}
 #menu-content li{
 	color: black;
+}
+#menu-content li:hover{
+	background: grey;
 }
 
 #boards-menu{
@@ -60,14 +64,19 @@ body{
     top: 45px;
     bottom: 0;
     left: 0;
-    width: 300px;
+    width: 200px;
     display: none;
 }
 
+#boards-content{
+	padding: 0;
+}
 #boards-content li{
 	color: black;
 }
-
+#boards-content li:hover{
+	background: grey;
+}
 .title{
 	margin: 20px;
 	margin-bottom: 10px;
