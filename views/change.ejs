@@ -1,0 +1,17 @@
+<%- include('header', {href: '../../stylesheets/login.css '}); %>
+
+	<script> var code = '<%- code %>'; </script>
+	
+	<div class = "login">
+		<H1 id = "title" >change password</H1>
+		<form id = "pwchange">
+			<p>
+			<input type="password" name="p1" placeholder="Enter Password" required></p>
+			<p>
+			<input type="password" name="p2" placeholder="Confirm Password" required></p>
+			
+			<input class="button" id="get_link" type="submit" value="change password">
+		</form>
+	</div>
+
+<%- include('footer',{script: "../../javascripts/change.js"}); %>

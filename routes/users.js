@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
+var hash = require('object-hash');
+
 var User = require('../models/user');
 
 //CORS middleware
@@ -42,8 +44,9 @@ router.post('/', function (req,res) {
 		{ 
 			"username": req.body.username,
 			"email": req.body.email,
-			"password": req.body.password
-		});
+			"password": hash(req.body.password),
+			"reset": Date()
+			});
 
 
 	newuser.save( function (err) {
@@ -55,6 +58,27 @@ router.post('/', function (req,res) {
 	});
 	console.log(req.body);
 });
+
+/* PATCH  */
+
+router.patch('/:code', function(req,res){
+	User.find(function(err, user){
+		for(var i = 0; i < user.length; i++){
+			var hasheduser = hash(user[i].username + user[i].reset);
+			if( hasheduser == req.params.code){
+				var pw = hash(user[i].password);
+				user[i].password = pw;
+
+				console.log(user);
+				
+				res.json(user);
+			}
+		}
+	});
+
+});
+
+/* DELETE */
 
 router.delete('/:id', function(req,res){
 	User.findByIdAndRemove( req.params.id, function(err, user){

@@ -11,11 +11,15 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var list = require('./routes/list');
 var my_boards = require('./routes/my_boards');
+
 var boards = require('./routes/boards');
 var login = require('./routes/login');
 var register = require('./routes/register');
 var board = require('./routes/board');
 var logout = require('./routes/logout');
+//part of final test
+var forgot_password = require('./routes/forgotpassword');
+var passwordreset = require('./routes/passwordreset');
 
 var User = require('./models/user');
 
@@ -75,6 +79,9 @@ app.use('/boards', boards);
 app.use('/register', register);
 app.use('/board', board);
 app.use('/logout', logout);
+//final test
+app.use('/forgotpassword', forgot_password);
+app.use('/passwordreset', passwordreset);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

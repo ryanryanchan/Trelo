@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
+var hash = require('object-hash');
+
 var User = require('../models/user');
 
 
@@ -15,7 +17,7 @@ router.post('/', function(req, res) {
     	console.log('not user');
       	res.render('login', {  title: "login", error: 'Invalid username or password.' });
     } else {
-      if (req.body.password === user.password) {
+      if (hash(req.body.password) === user.password) {
       	req.session.user = user;
         console.log('password works');
         res.redirect('/boards');
